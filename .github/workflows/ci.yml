@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop, 'feature/**', 'fix/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Compile
+        run: mvn compile -B -q
+
+      - name: Test
+        run: mvn test -B
+
+      - name: Upload test reports on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: '**/target/surefire-reports/'
+          retention-days: 7
+
+  dependency-boundary:
+    name: Dependency Boundary Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check forbidden imports in core modules
+        run: |
+          FAILED=0
+          CORE_MODULES="agent-core agent-llm agent-advisor agent-config"
+          FORBIDDEN_PATTERNS="org\.springframework|io\.micrometer|com\.anthropic"
+
+          for module in $CORE_MODULES; do
+            if [ -d "$module/src/main/java" ]; then
+              MATCHES=$(grep -rn --include="*.java" -E "$FORBIDDEN_PATTERNS" "$module/src/main/java" || true)
+              if [ -n "$MATCHES" ]; then
+                echo "❌ Forbidden imports found in $module:"
+                echo "$MATCHES"
+                FAILED=1
+              else
+                echo "✅ $module — no forbidden imports"
+              fi
+            fi
+          done
+
+          if [ $FAILED -eq 1 ]; then
+            echo ""
+            echo "core modules (agent-core, agent-llm, agent-advisor, agent-config) must NOT import Spring, Micrometer, or Anthropic."
+            exit 1
+          fi

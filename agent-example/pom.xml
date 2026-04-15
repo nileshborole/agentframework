@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.agentframework</groupId>
+        <artifactId>agent-framework-parent</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>agent-example</artifactId>
+    <name>Agent Framework :: Example</name>
+    <description>Example agent demonstrating how to use the agent-framework modules</description>
+
+    <dependencies>
+        <!-- Framework core modules -->
+        <dependency>
+            <groupId>io.agentframework</groupId>
+            <artifactId>agent-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.agentframework</groupId>
+            <artifactId>agent-llm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.agentframework</groupId>
+            <artifactId>agent-advisor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.agentframework</groupId>
+            <artifactId>agent-config</artifactId>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+    </dependencies>
+</project>
