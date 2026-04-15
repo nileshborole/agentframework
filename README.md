@@ -3,7 +3,7 @@
 [![CI](https://github.com/YOUR_GITHUB/agent-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_GITHUB/agent-framework/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
-A generic Java 21 AI agent orchestration framework. Eliminates the boilerplate ReAct loop, tool dispatch, advisor middleware, and observability wiring so domain code only implements prompts, tools, and decision parsing.
+A generic Java AI agent orchestration framework. Eliminates the boilerplate ReAct loop, tool dispatch, advisor middleware, and observability wiring so domain code only implements prompts, tools, and decision parsing.
 
 ## Features
 
